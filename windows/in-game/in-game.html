@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../../css/general.css" />
+    <link rel="stylesheet" href="../../css/header.css" />
+    <link rel="stylesheet" href="../../css/modal.css" />
+    <title>Dododex - in-game</title>
+  </head>
+  <body class="in-game">
+    <div id="ark-box" class="ark-box">
+
+    <!-- -------------------------------- Header ------------------------------- -->
+
+    <header class="app-header">
+      <h1>Dododex</h1>
+      <div class="window-controls-group">
+        <button disabled class="hotkeyPanel window-control">
+          <span id="hotkey" class="inline"></span>
+        </button>
+        <a class="icon window-control" href="overwolf://settings/hotkeys">
+          <svg>
+            <use xlink:href="/img/header_icons.svg#window-control_settings" />
+          </svg>
+        </a>
+        <button class="icon window-control" id="minimizeButton">
+          <svg>
+            <use xlink:href="../../img/header_icons.svg#window-control_minimize" />
+          </svg>
+        </button>
+        <button class="icon window-control window-control-close" id="closeButton">
+          <svg>
+            <use xlink:href="../../img/header_icons.svg#window-control_close" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- --------------------------------- Main -------------------------------- -->
+
+    <div class="hex-pattern"></div>
+    <div class="calc-header">
+    <img class="dododex-logo wiggle" src="https://www.dododex.com/media/logo-small.png">
+    <div class="dododex">Dododex</div>
+      <div class="settings-btn" onclick="renderSearchPage()">
+        <svg>
+          <use xlink:href="../../img/header_icons.svg#house-icon" />
+        </svg>
+      </div>
+      <div class="settings-btn hidden" onclick="toggleSettings()">
+        <svg>
+          <use xlink:href="../../img/header_icons.svg#settings-icon" />
+        </svg>
+      </div> 
+  </div>
+  <div class="main-content">
+  <div class="content-box" id="app"></div>
+    </div>
+      <div class="secondary-box">
+        <div id="creature-selector">
+        <div class="creature-info-cont">
+    <img id="creature-pic" src="">
+</div>
+<div class="input-box large">
+  <label for="creatures">Creature</label>
+<select name="creatures" id="creatures" onchange="tameCommand()">
+<option value="Achatina">Achatina</option>
+<option value="Allosaurus">Allosaurus</option>
+<option value="Angler">Angler</option>
+<option value="Ankylosaurus">Ankylosaurus</option>
+<option value="Araneo">Araneo</option>
+<option value="Archaeopteryx">Archaeopteryx</option>
+<option value="Argentavis">Argentavis</option>
+<option value="Arthropluera">Arthropluera</option>
+<option value="Astrocetus">Astrocetus</option>
+<option value="Baryonyx">Baryonyx</option>
+<option value="Basilisk">Basilisk</option>
+<option value="Basilosaurus">Basilosaurus</option>
+<option value="Beelzebufo">Beelzebufo</option>
+<option value="Bloodstalker">Bloodstalker</option>
+<option value="Brontosaurus">Brontosaurus</option>
+<option value="Bulbdog">Bulbdog</option>
+<option value="Carbonemys">Carbonemys</option>
+<option value="Carnotaurus">Carnotaurus</option>
+<option value="Castoroides">Castoroides</option>
+<option value="Chalicotherium">Chalicotherium</option>
+<option value="Coelacanth">Coelacanth</option>
+<option value="Compy">Compy</option>
+<option value="Crystal Wyvern">Crystal Wyvern</option>
+<option value="Daeodon">Daeodon</option>
+<option value="Deinonychus">Deinonychus</option>
+<option value="Desert Titan">Desert Titan</option>
+<option value="Dilophosaur">Dilophosaur</option>
+<option value="Dimetrodon">Dimetrodon</option>
+<option value="Dimorphodon">Dimorphodon</option>
+<option value="Diplocaulus">Diplocaulus</option>
+<option value="Diplodocus">Diplodocus</option>
+<option value="Direbear">Direbear</option>
+<option value="Direwolf">Direwolf</option>
+<option value="Dodo">Dodo</option>
+<option value="Doedicurus">Doedicurus</option>
+<option value="Dung Beetle">Dung Beetle</option>
+<option value="Dunkleosteus">Dunkleosteus</option>
+<option value="Electrophorus">Electrophorus</option>
+<option value="Equus">Equus</option>
+<option value="Featherlight">Featherlight</option>
+<option value="Ferox">Ferox</option>
+<option value="Forest Titan">Forest Titan</option>
+<option value="Gacha">Gacha</option>
+<option value="Gallimimus">Gallimimus</option>
+<option value="Gasbags">Gasbags</option>
+<option value="Giant Bee">Giant Bee</option>
+<option value="Giganotosaurus">Giganotosaurus</option>
+<option value="Gigantopithecus">Gigantopithecus</option>
+<option value="Glowtail">Glowtail</option>
+<option value="Griffin">Griffin</option>
+<option value="Hesperornis">Hesperornis</option>
+<option value="Hyaenodon">Hyaenodon</option>
+<option value="Ice Titan">Ice Titan</option>
+<option value="Ichthyornis">Ichthyornis</option>
+<option value="Ichthyosaurus">Ichthyosaurus</option>
+<option value="Iguanodon">Iguanodon</option>
+<option value="Jerboa">Jerboa</option>
+<option value="Kairuku">Kairuku</option>
+<option value="Kaprosuchus">Kaprosuchus</option>
+<option value="Karkinos">Karkinos</option>
+<option value="Kentrosaurus">Kentrosaurus</option>
+<option value="Lamprey">Lamprey</option>
+<option value="Leech">Leech</option>
+<option value="Liopleurodon">Liopleurodon</option>
+<option value="Lymantria">Lymantria</option>
+<option value="Lystrosaurus">Lystrosaurus</option>
+<option value="Magmasaur">Magmasaur</option>
+<option value="Mammoth">Mammoth</option>
+<option value="Managarmr">Managarmr</option>
+<option value="Manta">Manta</option>
+<option value="Mantis">Mantis</option>
+<option value="Megachelon">Megachelon</option>
+<option value="Megalania">Megalania</option>
+<option value="Megaloceros">Megaloceros</option>
+<option value="Megalodon">Megalodon</option>
+<option value="Megalosaurus">Megalosaurus</option>
+<option value="Megatherium">Megatherium</option>
+<option value="Mesopithecus">Mesopithecus</option>
+<option value="Microraptor">Microraptor</option>
+<option value="Morellatops">Morellatops</option>
+<option value="Mosasaurus">Mosasaurus</option>
+<option value="Moschops">Moschops</option>
+<option value="Onyc">Onyc</option>
+<option value="Otter">Otter</option>
+<option value="Oviraptor">Oviraptor</option>
+<option value="Ovis">Ovis</option>
+<option value="Pachy">Pachy</option>
+<option value="Pachyrhinosaurus">Pachyrhinosaurus</option>
+<option value="Paracer">Paracer</option>
+<option value="Parasaur">Parasaur</option>
+<option value="Pegomastax">Pegomastax</option>
+<option value="Pelagornis">Pelagornis</option>
+<option value="Phiomia">Phiomia</option>
+<option value="Phoenix">Phoenix</option>
+<option value="Piranha">Piranha</option>
+<option value="Plesiosaur">Plesiosaur</option>
+<option value="Procoptodon">Procoptodon</option>
+<option value="Pteranodon">Pteranodon</option>
+<option value="Pulmonoscorpius">Pulmonoscorpius</option>
+<option value="Purlovia">Purlovia</option>
+<option value="Quetzal">Quetzal</option>
+<option value="Raptor">Raptor</option>
+<option value="Ravager">Ravager</option>
+<option value="Reaper">Reaper</option>
+<option value="Rex">Rex</option>
+<option value="Rock Drake">Rock Drake</option>
+<option value="Rock Elemental">Rock Elemental</option>
+<option value="Roll Rat">Roll Rat</option>
+<option value="Royal Griffin">Royal Griffin</option>
+<option value="Sabertooth">Sabertooth</option>
+<option value="Sarco">Sarco</option>
+<option value="Shinehorn">Shinehorn</option>
+<option value="Snow Owl">Snow Owl</option>
+<option value="Spinosaur">Spinosaur</option>
+<option value="Stegosaurus">Stegosaurus</option>
+<option value="Tapejara">Tapejara</option>
+<option value="Terror Bird">Terror Bird</option>
+<option value="Therizinosaurus">Therizinosaurus</option>
+<option value="Thorny Dragon">Thorny Dragon</option>
+<option value="Thylacoleo">Thylacoleo</option>
+<option value="Titanoboa">Titanoboa</option>
+<option value="Titanosaur">Titanosaur</option>
+<option value="Triceratops">Triceratops</option>
+<option value="Trilobite">Trilobite</option>
+<option value="Troodon">Troodon</option>
+<option value="Tropeognathus">Tropeognathus</option>
+<option value="Tusoteuthis">Tusoteuthis</option>
+<option value="Unicorn">Unicorn</option>
+<option value="Velonasaur">Velonasaur</option>
+<option value="Vulture">Vulture</option>
+<option value="Woolly Rhino">Woolly Rhino</option>
+<option value="Wyvern">Wyvern</option>
+<option value="Yutyrannus">Yutyrannus</option>
+</select>
+ 
+    </div>
+<div class="input-box small right">
+  <label for="levl">Level</label>
+  <input autocomplete="off" onchange="tameCommand()" min="1" max="9999" id="level" value="150" type="number">
+  </div>
+  <div class="input-box settings-input">
+    <label for="levl">Taming Speed</label>
+  <input autocomplete="off" onchange="changeSetting('tamingMultiplier'); tameCommand();" min="1" max="9999" id="tamingMultiplier" type="number">
+  </div>
+  <div class="input-box settings-input right">
+    <label for="levl">Consumption Multiplier</label>
+  <input autocomplete="off" onchange="changeSetting('consumptionMultiplier'); tameCommand();" min="1" max="9999" id="consumptionMultiplier" type="number">
+  </div>
+  
+  <div class="button hidden" onclick="tameCommand()">Tame</div>
+          </div>
+        
+    <div id="ad-div"></div>
+        </div>
+  <div id="close-settings" onclick="toggleSettings()"></div>
+  <div id="settings-page">
+    <p class="title">Settings</p>
+    <p class="mini-title">Taming</p>
+  <div class="input-box settings-input">
+  <label for="levl">Taming Speed</label>
+  <input autocomplete="off" onchange="changeSetting('tamingMultiplier'); tameCommand();" min="1" max="9999" id="tamingMultiplier" type="number">
+  </div>
+  <div class="input-box settings-input">
+  <label for="levl">Dino Character Food Drain</label>
+  <input autocomplete="off" onchange="changeSetting('consumptionMultiplier'); tameCommand();" min="1" max="9999" id="consumptionMultiplier" type="number">
+  </div>
+  </div>
+
+
+    </div>
+
+    <!-- -------------------------------- Modal -------------------------------- -->
+    <div id="exitMinimizeModal" class="modal">
+      <div class="modal-content">
+        <h3>Exit the app?</h3>
+        <p>
+          Exiting the app will close all the app windows and terminate the app
+          process.<br />
+          <br />
+          Are you sure?
+        </p>
+        <span class="buttonBar">
+          <button id="minimize" class="modalButton">
+            Minimize
+          </button>
+          <button id="exit" class="modalButton">
+            Exit
+          </button>
+        </span>
+      </div>
+    </div>
+    <script src="app.js"></script>
+
+    <script>
+      renderSearchPage()
+    </script>
+    <script src="../../lib/require.js"></script>
+    <script>
+      require(["in-game-controller"], function(InGameController) {
+        console.log(`[INIT] in-game module loaded`);
+        const inGameController = new InGameController();
+        inGameController.run();
+      }, function(error) {
+        console.log(`[INIT] failed to load in-game module ${error}`);
+      });
+    </script>
+    <script
+    src="http://content.overwolf.com/libs/ads/latest/owads.min.js"
+    async
+    onload="onOwAdReady()"
+  ></script>
+  <script>
+    function onOwAdReady() {
+      const owAd = new OwAd(document.getElementById("ad-div"));
+      function onWindowStateChanged(state) {
+   
+          // when state changes to minimized, call removeAd()
+          if (state.window_state === "minimized") {
+            owAd.removeAd();
+            console.log("Ads removed")
+          }
+          // when state changes from minimized to normal, call refreshAd()
+          else if (
+            state.window_previous_state === "minimized" &&
+            state.window_state === "normal"
+          ) {
+            owAd.refreshAd();
+            console.log("Ads refreshed")
+          }
+      
+      }
+
+      overwolf.windows.onStateChanged.removeListener(onWindowStateChanged);
+      overwolf.windows.onStateChanged.addListener(onWindowStateChanged);
+    }
+  </script>
+
+
+
+  </body>
+</html>

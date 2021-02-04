@@ -1,0 +1,62 @@
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  border-radius: 3px;
+  border: 2px solid rgba(165, 222, 216,0.95);
+  background: rgba(8, 108, 131,0.97);
+  box-shadow: inset 0 0 10px rgba(127, 231, 255,0.75);
+  color: #B9EEF6;
+  text-shadow: 0 1px 1px rgba(4,36,48,.5);
+  margin: 10% auto; /* 15% from the top and centered */
+  padding: 45px;
+  width: 320px;
+  /* height: 260px; */
+  box-sizing: border-box;
+}
+
+.modal-content h3 {
+  margin: 0px;
+  font-size: 25px;
+  line-height: 29px;
+}
+
+.modal-content p {
+  font-size: 15px;
+  line-height: 21px;
+}
+
+.buttonBar {
+  margin-top: 15px;
+  display: inline-block;
+  width: 100%;
+}
+
+.modalButton {
+  color: #fff;
+box-shadow: 0 1px 1px rgba(127, 231, 255,0.15);
+border: 2px solid rgba(165, 222, 216,0.45);
+background: rgba(8, 99, 120, 0.95);
+  font-size: 15px;
+  line-height: 18px;
+  border-radius: 3px;
+  padding: 5px 18px;
+  cursor: pointer;
+  width: 95px;
+}
+
+#exit {
+  float: right;
+}
