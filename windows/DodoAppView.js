@@ -1,5 +1,6 @@
+
 define(["../scripts/services/drag-service.js"], function(DragService) {
-  class SampleAppView {
+  class DodoAppView {
     constructor() {
       // Methods:
       this._showExitMinimizeModal = this._showExitMinimizeModal.bind(this);
@@ -62,5 +63,5 @@ define(["../scripts/services/drag-service.js"], function(DragService) {
     }
   }
 
-  return SampleAppView;
+  return DodoAppView;
 });

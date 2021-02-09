@@ -1,8 +1,8 @@
 define([
-  '../SampleAppView.js'
-], function (SampleAppView) {
+  '../DodoAppView.js'
+], function (DodoAppView) {
 
-  class DesktopView extends SampleAppView {
+  class DesktopView extends DodoAppView {
     constructor() {
       super();
     }

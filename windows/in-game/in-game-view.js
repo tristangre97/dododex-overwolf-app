@@ -1,5 +1,5 @@
-define(["../SampleAppView.js"], function(SampleAppView) {
-  class InGameView extends SampleAppView {
+define(["../DodoAppView.js"], function(DodoAppView) {
+  class InGameView extends DodoAppView {
     constructor() {
       super();
 

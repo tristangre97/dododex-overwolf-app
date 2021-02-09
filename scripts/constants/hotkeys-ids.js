@@ -1,3 +1,3 @@
 define({
-  TOGGLE: 'sample_app_showhide',
+  TOGGLE: 'dododex_app_showhide',
 });
