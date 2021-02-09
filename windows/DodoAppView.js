@@ -24,7 +24,7 @@ define(["../scripts/services/drag-service.js"], function(DragService) {
       this._closeButton.addEventListener("click", this._showExitMinimizeModal);
       // Listen to minimize click
       this._minimizeHeaderButton.addEventListener("click", () => {
-        this._backgroundWindow.minimize();
+        overwolf.windows.minimize('in_game')
       });
       // Close app on exit click
       this._exitButton.addEventListener("click", () => {
@@ -32,7 +32,7 @@ define(["../scripts/services/drag-service.js"], function(DragService) {
       });
       // Minimize app on minimize click
       this._minimizeButton.addEventListener("click", () => {
-        this._backgroundWindow.minimize();
+        overwolf.windows.minimize('in_game')
         this._hideExitMinimizeModal();
       });
       // When the user clicks anywhere outside of the modal, close it

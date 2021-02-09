@@ -3,7 +3,7 @@
   "type": "WebApp",
   "meta": {
     "name": "Dododex",
-    "version": "1.1.3",
+    "version": "1.1.6",
     "minimum-overwolf-version": "0.120.0",
     "author": "TristanGames",
     "icon": "img/logo-small.png",
@@ -60,11 +60,11 @@
           "width": 550,
           "height": 700
         },
-        "desktop_only": true
+        "desktop_only": false
       },
       "in_game": {
         "file": "windows/in-game/in-game.html",
-        "in_game_only": true,
+        "in_game_only": false,
         "focus_game_takeover": "ReleaseOnHidden",
         "focus_game_takeover_release_hotkey": "dododex_app_showhide",
         "transparent": true,
