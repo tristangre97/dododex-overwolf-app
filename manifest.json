@@ -3,11 +3,11 @@
   "type": "WebApp",
   "meta": {
     "name": "Dododex",
-    "version": "1.1.6",
+    "version": "1.1.8",
     "minimum-overwolf-version": "0.120.0",
     "author": "TristanGames",
     "icon": "img/logo-small.png",
-    "icon_gray": "img/logo-small.png",
+    "icon_gray": "IconMouseNormal.png",
     "launcher_icon": "desktop-icon.ico",
     "window_icon": "img/logo-small.png",
     "description": "The ARK taming calculator and companion app used by over 5 million ARK: Survival Evolved players."

@@ -21,13 +21,13 @@ define(["../scripts/services/drag-service.js"], function(DragService) {
 
     init() {
       // Listen to X button click
-      this._closeButton.addEventListener("click", this._showExitMinimizeModal);
+      // this._closeButton.addEventListener("click", this._showExitMinimizeModal);
       // Listen to minimize click
       this._minimizeHeaderButton.addEventListener("click", () => {
         overwolf.windows.minimize('in_game')
       });
       // Close app on exit click
-      this._exitButton.addEventListener("click", () => {
+      this._closeButton.addEventListener("click", () => {
         this._backgroundWindow.close();
       });
       // Minimize app on minimize click

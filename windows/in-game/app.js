@@ -216,7 +216,8 @@ var narcotics = {
 
 //tameCommand();
 
-function convertTime(sec) {
+function convertTime(seconds) {
+	sec = Math.round(seconds);
 	var hours = Math.floor(sec / 3600);
 	(hours >= 1) ? sec = sec - (hours * 3600): hours = '00';
 	var min = Math.floor(sec / 60);
@@ -229,6 +230,7 @@ function convertTime(sec) {
 
 function clearTable() {
   var tameTable = document.getElementById('tameTable');
+  var eggTable = document.getElementById('eggTable');
   tameTable.style.opacity = 0;
   var tameDescText = document.getElementById('tamingDesc');
   var tameNoticeText = document.getElementById('tamingNotice');
@@ -242,11 +244,12 @@ function clearTable() {
   tameDescText.innerText = "";
   koDiv.innerHTML = "";
   tameTable.innerHTML = ``;
+  eggTable.innerHTML = ``;
   //console.log("cleared")
 }
 
-function renderTameApp(creature) {
-  console.time("tame");
+function renderTameApp(creature, creatureFullName) {
+  console.time("App rendered in");
   document.getElementById('ark-box').scrollTop = 0;
   showSelector();
   app.innerHTML = `
@@ -257,6 +260,9 @@ function renderTameApp(creature) {
 </table>
 <p class="title">KO Data</p>
 <div id="ko"></div>
+<p class="title"><span id="creatureNameBreed"></span> Breeding</p>
+<div id="eggTable"></div>
+
   <div id="tamingDesc"></div>
   </div>
   <div class="footer">
@@ -268,7 +274,8 @@ function renderTameApp(creature) {
   creatureInput.options[creatureInput.selectedIndex].text = creature;
 
   tameCommand();
-  console.timeEnd("tame");
+  renderEgg(creatureFullName);
+  console.timeEnd("App rendered in");
 }
 
 function renderSearchPage() {
@@ -287,7 +294,6 @@ function renderSearchPage() {
     `
   renderCreatures();
 }
-
 function renderCreatures() {
   var creatureList = ["Achatina","Allosaurus","Angler","Ankylosaurus","Araneo","Archaeopteryx","Argentavis","Arthropluera","Astrocetus","Baryonyx","Basilisk","Basilosaurus","Beelzebufo","Bloodstalker","Brontosaurus","Bulbdog","Carbonemys","Carnotaurus","Castoroides","Chalicotherium","Coelacanth","Compy","Crystal Wyvern","Daeodon","Deinonychus","Desert Titan","Dilophosaur","Dimetrodon","Dimorphodon","Diplocaulus","Diplodocus","Direbear","Direwolf","Dodo","Doedicurus","Dung Beetle","Dunkleosteus","Electrophorus","Equus","Featherlight","Ferox","Forest Titan","Gacha","Gallimimus","Gasbags","Giant Bee","Giganotosaurus","Gigantopithecus","Glowtail","Griffin","Hesperornis","Hyaenodon","Ice Titan","Ichthyornis","Ichthyosaurus","Iguanodon","Jerboa","Kairuku","Kaprosuchus","Karkinos","Kentrosaurus","Lamprey","Leech","Liopleurodon","Lymantria","Lystrosaurus","Magmasaur","Mammoth","Managarmr","Manta","Mantis","Megachelon","Megalania","Megaloceros","Megalodon","Megalosaurus","Megatherium","Mesopithecus","Microraptor","Morellatops","Mosasaurus","Moschops","Onyc","Otter","Oviraptor","Ovis","Pachy","Pachyrhinosaurus","Paracer","Parasaur","Pegomastax","Pelagornis","Phiomia","Phoenix","Piranha","Plesiosaur","Procoptodon","Pteranodon","Pulmonoscorpius","Purlovia","Quetzal","Raptor","Ravager","Reaper","Rex","Rock Drake","Rock Elemental","Roll Rat","Royal Griffin","Sabertooth","Sarco","Shinehorn","Snow Owl","Spinosaur","Stegosaurus","Tapejara","Terror Bird","Therizinosaurus","Thorny Dragon","Thylacoleo","Titanoboa","Titanosaur","Triceratops","Trilobite","Troodon","Tropeognathus","Tusoteuthis","Unicorn","Velonasaur","Vulture","Woolly Rhino","Wyvern","Yutyrannus"];
   var creatureListDiv = document.getElementById('creature-list')
@@ -297,8 +303,8 @@ function renderCreatures() {
     let $p = document.createElement('li');
     $p.className = 'creature-block';
     $p.innerHTML = `
-    <div onclick="renderTameApp('${creatureList[i].toLowerCase().replace(" ","")}')">
-    <img loading="lazy" src="https://res.cloudinary.com/tristangregory/image/upload/fl_force_strip.preserve_transparency,q_auto:good/v1612308172/ark/creatures/${creatureList[i].toLowerCase().replace(" ","")}.png">
+    <div onclick="renderTameApp('${creatureList[i].toLowerCase().replace(" ","")}', '${creatureList[i]}')">
+    <img loading="lazy" src="../../img/creatures/${creatureList[i].toLowerCase().replace(" ","")}.webp">
     <p class="creature-name">${creatureList[i]}</p>
     </div>
     `;
@@ -310,7 +316,6 @@ function renderCreatures() {
 
 
 renderSearchPage();
-//renderTameApp();
 
 
 
@@ -403,3 +408,47 @@ function showSelector() {
   creatureSelect.classList.add("shown");
 }
 
+
+
+function renderEgg(creature) {
+  creatureNameBreed.innerText = creature;
+  var eggTable = document.getElementById('eggTable');
+
+  fetch(`https://arkbuddy.app/api/data?creature=${creature}`).then(function(response) {
+	// The API call was successful!
+	if (response.ok) {
+		return response.json();
+	}
+}).then(function(data) {
+	var breedingTimes = data.breeding;
+  var gestationTime = convertTime(breedingTimes.gestationTime);
+	var incubationTime = convertTime(breedingTimes.incubationTime);
+	var maturationTime = convertTime(breedingTimes.maturationTime);
+	var eggMinTemp = breedingTimes.eggTempMin;
+	var eggMaxTemp = breedingTimes.eggTempMax;
+	var eggTempMinFar = Math.round((eggMinTemp * 1.8) + 32);
+	var eggTempMaxFar = Math.ceil((eggMaxTemp * 1.8) + 32);
+	//console.log(incubationTime, maturationTime, eggTempMinFar, eggTempMaxFar);
+  //console.log(creature, gestationTime, incubationTime)
+
+  if(data.breeding.incubationTime == 0) {
+    eggTable.innerHTML = `
+    <p>No egg</p>
+    `
+  }
+  if(data.breeding.gestationTime == 0) {
+    eggTable.innerHTML = `
+    <img class="dododex-logo wiggle" src="https://www.dododex.com/media/item/${creature.charAt(0).toUpperCase() + creature.toLowerCase().slice(1)}_Egg.png">
+    <span id="idealTemp"></span>
+    `;
+    idealTemp.innerText = `${eggTempMinFar}° - ${eggTempMaxFar}° fahrenheit (${eggMinTemp}° - ${eggMaxTemp}° celsius)`;
+  }
+
+
+}).catch(function(err) {
+  console.log(err)
+	eggTable.innerHTML = `
+  <p>No breeding data available</p>
+  `
+});
+}
