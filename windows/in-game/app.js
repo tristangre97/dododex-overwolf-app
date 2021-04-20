@@ -65,7 +65,7 @@ var narcotics = {
    clearTable();
    var creature = document.getElementById("creatures").value.replace(" ","").toLowerCase();
    var creatureImg = document.getElementById("creature-pic");
-   creatureImg.src = `https://res.cloudinary.com/tristangregory/image/upload/fl_force_strip.preserve_transparency,q_auto:good/v1612308172/ark/creatures/${creature.toLowerCase().replace(" ","")}.png`;
+   creatureImg.src = `../../img/creatures/${creature.toLowerCase().replace(" ","")}.webp`;
    var level = document.getElementById("level").value;
    var tameTable = document.getElementById('tameTable');
    tameTable.style.transition = '0.555s';
@@ -215,8 +215,20 @@ var narcotics = {
 }
 
 //tameCommand();
-
 function convertTime(seconds) {
+  sec = Math.round(seconds);
+  var days = String(Math.floor(sec / (3600*24))).padStart(2, '0');
+  var hours = String(parseInt(sec / 3600) % 24).padStart(2, '0');
+  var minutes = String(parseInt((sec % 3600) / 60)).padStart(2, '0');
+  var seconds = String(parseInt(sec % 60)).padStart(2, '0');
+	if(days == 0) {return `${hours}h ${minutes}m`;}
+	if(hours == 00) {return `${minutes}m`;}
+  if(minutes == 0) {return `${seconds}s`;}
+
+	return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+function convertTime2(seconds) {
 	sec = Math.round(seconds);
 	var hours = Math.floor(sec / 3600);
 	(hours >= 1) ? sec = sec - (hours * 3600): hours = '00';
@@ -282,7 +294,7 @@ function renderSearchPage() {
   hideSelector();
   app.innerHTML = `
     <div class="creature-page" id="creature-page">
-    <div class="input-box full search">
+    <div class="input-box full search sticky-search">
   <input autocomplete="off" placeholder="Search Creatures" id="searchInput" class="almost" onkeyup="searchItems()">
     </div>
     
@@ -346,7 +358,7 @@ function koStats(totalTorpor) {
 			let $p = document.createElement('div');
 			$p.className = 'ko-block';
 			$p.innerHTML = `
-      <img class="weapon-img" src="https://www.dododex.com/media/item/${weapons[i].img}.png">
+      <img class="weapon-img" src="../../img/items/${weapons[i].img}.webp">
       <p class="shot-amount">${Math.ceil(totalTorpor/weapons[i].torpor)}</p>
       <p class="item-percent">${weapons[i].percent}%</p>
       <p class="item-name">${weapons[i].itemName}</p>
@@ -411,6 +423,9 @@ function showSelector() {
 
 
 function renderEgg(creature) {
+  var hatchMultiplier = localStorage.hatchMultiplier || 1;
+  var matureMultiplier = localStorage.matureMultiplier || 1;
+
   creatureNameBreed.innerText = creature;
   var eggTable = document.getElementById('eggTable');
 
