@@ -152,6 +152,11 @@ label {
 	display: inline-block;
 	width: 49%;
 }
+.sticky-search {
+	position: sticky;
+    z-index: 10;
+    top: 122px;
+}
 .almost {
 	width: 99%;
 	margin-left: auto;
@@ -203,9 +208,11 @@ tr {
 }
 .tame-data {
 	font-size: 18px;
+	font-feature-settings: "tnum";
+	font-variant-numeric: tabular-nums;
 }
 .tame-data:nth-of-type(even) {
-	background: rgba(8, 108, 131, 0.5);
+	background: rgba(8, 108, 131, 0.85);
 }
 #tameTable>thead>tr>th:nth-child(2), #tameTable>thead>tr>th:nth-child(3), #tameTable>thead>tr>th:nth-child(4) {
 	text-align: right;
@@ -521,7 +528,7 @@ select {
 	border-radius: 3px;
 	margin-bottom: 10px;
 	text-align: center;
-	background: rgba(8, 108, 131, 0.65);
+	background: rgba(8, 108, 131, 0.85);
 	overflow: hidden;
 	transition: 0.333s;
 	border: 3px solid transparent;
@@ -589,7 +596,7 @@ ul {
 	position: relative;
 }
 .ko-block:nth-of-type(even) {
-	background: rgba(8, 108, 131, 0.5);
+	background: rgba(8, 108, 131, 0.85);
 }
 .shot-amount {
 	font-size: 22px;
@@ -625,7 +632,7 @@ ul {
 	border-bottom: 1px solid currentcolor;
 }
 #tame-type {
-	background: rgba(8, 108, 131, 0.5);
+	background: rgba(8, 108, 131, 0.85);
 	align-items: center;
 	display: flex;
 	font-weight: 600;
