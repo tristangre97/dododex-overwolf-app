@@ -42,7 +42,7 @@
     <div class="calc-header">
     <img class="dododex-logo wiggle" src="https://www.dododex.com/media/logo-small.png">
     <div class="dododex">Dododex</div>
-      <div class="settings-btn" onclick="renderSearchPage()">
+      <div class="settings-btn hidden" onclick="renderSearchPage()">
         <svg>
           <use xlink:href="../../img/header_icons.svg#house-icon" />
         </svg>
@@ -53,6 +53,15 @@
         </svg>
       </div> 
   </div>
+  <div class="header-nav">
+    <div class="nav-btn" onclick="renderSearchPage()">
+      <svg class="nav-icon">
+        <use xlink:href="../../img/header_icons.svg#house-icon" />
+      </svg>
+      <span class="nav-name">Home</span>
+    </div>
+  </div>
+
   <div class="main-content">
   <div class="content-box" id="app"></div>
     </div>
