@@ -21,8 +21,11 @@ var defaultWeapons = [
   {"itemName":"Slingshot","damage":14,"torpor":23.8,"percent":100,"img":"Slingshot"},
   {"itemName":"Electric Prod","damage":1,"torpor":266,"percent":100,"img":"Electric_Prod"}
 ];
+var recentTames = ["Raptor"];
 var isPassive;
 if (localStorage.arkWeapons === undefined) {localStorage.setItem("arkWeapons", JSON.stringify(defaultWeapons))}
+if (localStorage.recentlyTamed === undefined) {localStorage.setItem("recentlyTamed", JSON.stringify(recentTames))}
+recentlyTamed = JSON.parse(localStorage.getItem("recentlyTamed"));
 consumptionMultiplier = Math.max(Math.min(consumptionMultiplier,1000),0.1)
 
 var settingsPage = document.getElementById("settings-page");
@@ -88,6 +91,7 @@ var narcotics = {
 	var affinityLevelIncrease = creatureData.aI;
 	var foodBase = creatureData.foodBase;
 	var foodMult = creatureData.foodMult;
+  var carryableBy = creatureData.carry;
 	var effectiveness = 100;
 	var totalSecs = 0;
   var tameType = "Passive";
@@ -150,8 +154,25 @@ var narcotics = {
   } else {
     koStats.innerText = `<p>No tame data</p>`
   }
+  
+  if(carryableBy) {
+    i = 0;
+		while (i < carryableBy.length) {
+			let $p = document.createElement('div');
+			$p.className = 'carry-block';
+			$p.innerHTML = `
+      <img class="mini-creature-img" src="../../img/creatures/${carryableBy[i]}.webp">
+    `;
+    carryData.appendChild($p);
+			i++
+		}
+  } else {
+    carryData.innerHTML = `
+    <p>This creature cannot be carried.</p>
+    `
+  }
+renderEgg(creatureName);
 
-    
 })
  .then(() => {
    //console.log(hideNarc)
@@ -208,36 +229,24 @@ var narcotics = {
     tameTable.style.opacity = 0.75;
     tameTable.style.opacity = 1;
   }
+
   })
-    
+
 
 
 }
 
-//tameCommand();
 function convertTime(seconds) {
   sec = Math.round(seconds);
-  var days = String(Math.floor(sec / (3600*24))).padStart(2, '0');
-  var hours = String(parseInt(sec / 3600) % 24).padStart(2, '0');
-  var minutes = String(parseInt((sec % 3600) / 60)).padStart(2, '0');
-  var seconds = String(parseInt(sec % 60)).padStart(2, '0');
-	if(days == 0) {return `${hours}h ${minutes}m`;}
-	if(hours == 00) {return `${minutes}m`;}
-  if(minutes == 0) {return `${seconds}s`;}
-
-	return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
-
-function convertTime2(seconds) {
-	sec = Math.round(seconds);
-	var hours = Math.floor(sec / 3600);
-	(hours >= 1) ? sec = sec - (hours * 3600): hours = '00';
-	var min = Math.floor(sec / 60);
-	(min >= 1) ? sec = sec - (min * 60): min = '00';
-	(sec < 1) ? sec = '00': void 0;
-	(min.toString().length == 1) ? min = '0' + min: void 0;
-	(sec.toString().length == 1) ? sec = '0' + sec: void 0;
-	return hours + ':' + min + ':' + sec;
+  var days = Math.floor(sec / (3600*24));
+  var hours = parseInt(sec / 3600) % 24;
+  var minutes = parseInt((sec % 3600) / 60);
+  var seconds = parseInt(sec % 60);
+  //console.log(days, hours, minutes, seconds)
+  if(days==0&&hours>0){return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`}
+  if(hours==0&&minutes>0){return `${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`}
+  if(minutes==0&&seconds>0){return `${String(seconds).padStart(2, '0')}s`}
+	return `${String(days).padStart(2, '0')}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
 }
 
 function clearTable() {
@@ -257,10 +266,12 @@ function clearTable() {
   koDiv.innerHTML = "";
   tameTable.innerHTML = ``;
   eggTable.innerHTML = ``;
+  carryData.innerHTML = ``;
   //console.log("cleared")
 }
 
 function renderTameApp(creature, creatureFullName) {
+  updateRecent(creatureFullName);
   console.time("App rendered in");
   document.getElementById('ark-box').scrollTop = 0;
   showSelector();
@@ -274,7 +285,8 @@ function renderTameApp(creature, creatureFullName) {
 <div id="ko"></div>
 <p class="title"><span id="creatureNameBreed"></span> Breeding</p>
 <div id="eggTable"></div>
-
+<p class="title">Carryable By</p>
+<div id="carryData"></div>
   <div id="tamingDesc"></div>
   </div>
   <div class="footer">
@@ -285,8 +297,7 @@ function renderTameApp(creature, creatureFullName) {
   creatureInput.options[creatureInput.selectedIndex].value = creature;
   creatureInput.options[creatureInput.selectedIndex].text = creature;
 
-  tameCommand();
-  renderEgg(creatureFullName);
+  tameCommand(creatureFullName);
   console.timeEnd("App rendered in");
 }
 
@@ -359,7 +370,7 @@ function koStats(totalTorpor) {
 			$p.className = 'ko-block';
 			$p.innerHTML = `
       <img class="weapon-img" src="../../img/items/${weapons[i].img}.webp">
-      <p class="shot-amount">${Math.ceil(totalTorpor/weapons[i].torpor)}</p>
+      <p class="shot-amount">${Math.ceil(totalTorpor/weapons[i].torpor).toLocaleString()}</p>
       <p class="item-percent">${weapons[i].percent}%</p>
       <p class="item-name">${weapons[i].itemName}</p>
     `;
@@ -387,7 +398,6 @@ function addNewWeapon(itemName, baseDamage, baseTorpor, percent, img) {
 	};
   
   localStorage.setItem("weaponEntry", JSON.stringify(weaponEntry));
-	// Save allCars back to local storage
 	existingWeapons.unshift(weaponEntry);
 	localStorage.setItem("arkWeapons", JSON.stringify(existingWeapons));
   
@@ -423,12 +433,14 @@ function showSelector() {
 
 
 function renderEgg(creature) {
+  creature.charAt(0).toUpperCase() + creature.slice(1)
   var hatchMultiplier = localStorage.hatchMultiplier || 1;
   var matureMultiplier = localStorage.matureMultiplier || 1;
 
   creatureNameBreed.innerText = creature;
   var eggTable = document.getElementById('eggTable');
-
+  if(creature=="Direbear"){creature="Dire Bear"}
+  if(creature=="Crystalwyvern"){creature="Crystal Wyvern"}
   fetch(`https://arkbuddy.app/api/data?creature=${creature}`).then(function(response) {
 	// The API call was successful!
 	if (response.ok) {
@@ -436,20 +448,35 @@ function renderEgg(creature) {
 	}
 }).then(function(data) {
 	var breedingTimes = data.breeding;
-  var gestationTime = convertTime(breedingTimes.gestationTime);
-	var incubationTime = convertTime(breedingTimes.incubationTime);
-	var maturationTime = convertTime(breedingTimes.maturationTime);
-	var eggMinTemp = breedingTimes.eggTempMin;
-	var eggMaxTemp = breedingTimes.eggTempMax;
-	var eggTempMinFar = Math.round((eggMinTemp * 1.8) + 32);
-	var eggTempMaxFar = Math.ceil((eggMaxTemp * 1.8) + 32);
-	//console.log(incubationTime, maturationTime, eggTempMinFar, eggTempMaxFar);
-  //console.log(creature, gestationTime, incubationTime)
+  var incubationTime = parseInt(breedingTimes.incubationTime / hatchMultiplier);
+  var gestationTime = parseInt(breedingTimes.gestationTime / hatchMultiplier);
+  var maturationTime = parseInt(breedingTimes.maturationTime / matureMultiplier);
+  var incubationTimeFinal = convertTime(incubationTime);
+  var maturationTimeFinal = convertTime(maturationTime);
+  var gestationTimeFinal = convertTime(gestationTime); 
+  var tTime = parseInt((breedingTimes.incubationTime / hatchMultiplier) + (breedingTimes.gestationTime / hatchMultiplier) + (breedingTimes.maturationTime / matureMultiplier));
+  var growTime = (breedingTimes.maturationTime / matureMultiplier);
+  
+  var babyTimeSeconds = percentage(10, growTime);
+  var juvTimeSeconds = percentage(50, growTime);
+  var juvTimeFinal = parseInt(juvTimeSeconds - babyTimeSeconds)
+  var babyTime = convertTime(babyTimeSeconds);
+  var juvTime = convertTime(juvTimeFinal);
+  var toAdultTime = parseInt(growTime / 2);
+  var toAdult = convertTime(toAdultTime);
+
+  var totalTime = convertTime(tTime);
+  var eggMinTemp = breedingTimes.eggTempMin;
+  var eggMaxTemp = breedingTimes.eggTempMax;
+  var eggTempMinFar = Math.ceil((eggMinTemp * 1.8) + 32);
+  var eggTempMaxFar = Math.ceil((eggMaxTemp * 1.8) + 32);
+
 
   if(data.breeding.incubationTime == 0) {
     eggTable.innerHTML = `
     <p>No egg</p>
     `
+    return;
   }
   if(data.breeding.gestationTime == 0) {
     eggTable.innerHTML = `
@@ -467,3 +494,34 @@ function renderEgg(creature) {
   `
 });
 }
+
+function updateRecent(creature) {
+  recentlyTamed.unshift(creature)
+  if (recentlyTamed.length > 6) recentlyTamed.length = 6;
+  localStorage.setItem("recentlyTamed", JSON.stringify(recentlyTamed));
+}
+
+function percentage(percent, total) {
+  return ((percent/ 100) * total)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
