@@ -245,7 +245,9 @@ function convertTime(seconds) {
   var hours = parseInt(sec / 3600) % 24;
   var minutes = parseInt((sec % 3600) / 60);
   var seconds = parseInt(sec % 60);
-  console.log(days, hours, minutes, seconds)
+  //console.log(days, hours, minutes, seconds)
+  if(days>0){return `${String(days).padStart(2, '0')}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`}
+
   if(days==0&&hours>0){return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`}
   if(hours==0&&minutes>0){return `${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`}
   if(minutes==0&&seconds>0){return `${String(seconds).padStart(2, '0')}s`}
@@ -288,6 +290,14 @@ function renderTameApp(creature, creatureFullName) {
 <div id="ko"></div>
 <p class="title"><span id="creatureNameBreed"></span> Breeding</p>
 <div id="eggTable"></div>
+<div class="input-box settings-input">
+<label for="hatchMultiplier">Hatch Multiplier</label>
+<input autocomplete="off" onchange="changeSetting('hatchMultiplier'); setBlockHeights(); tameCommand();" min="1" max="9999" id="hatchMultiplier" type="number">
+</div>
+<div class="input-box settings-input">
+<label for="matureMultiplier">Mature Multiplier</label>
+<input autocomplete="off" onchange="changeSetting('matureMultiplier'); setBlockHeights(); tameCommand();" min="1" max="9999" id="matureMultiplier" type="number">
+</div>
 <p class="title">Carryable By</p>
 <div id="carryData"></div>
   <div id="tamingDesc"></div>
@@ -436,12 +446,22 @@ function showSelector() {
 
 
 function renderEgg(creature) {
+  var eggTable = document.getElementById('eggTable');
+  eggTable.innerHTML = `
+  <div class="center-box">
+  <div class="lds-ripple"><div></div><div></div></div>
+  </div>
+  `;
   creature.charAt(0).toUpperCase() + creature.slice(1)
   var hatchMultiplier = localStorage.hatchMultiplier || 1;
   var matureMultiplier = localStorage.matureMultiplier || 1;
 
+  var hatchMultiplierinput = document.getElementById('hatchMultiplier')
+  var matureMultiplierinput = document.getElementById('matureMultiplier')
+  hatchMultiplierinput.value = hatchMultiplier;
+  matureMultiplierinput.value = matureMultiplier;
+
   creatureNameBreed.innerText = creature;
-  var eggTable = document.getElementById('eggTable');
   if(creature=="Direbear"){creature="Dire Bear"}
   if(creature=="Crystalwyvern"){creature="Crystal Wyvern"}
   fetch(`https://arkbuddy.app/api/data?creature=${creature}`).then(function(response) {
@@ -473,7 +493,7 @@ function renderEgg(creature) {
   var eggMaxTemp = breedingTimes.eggTempMax;
   var eggTempMinFar = Math.ceil((eggMinTemp * 1.8) + 32);
   var eggTempMaxFar = Math.ceil((eggMaxTemp * 1.8) + 32);
-
+  
 
   if(data.breeding.incubationTime == 0) {
     eggTable.innerHTML = `
@@ -526,9 +546,7 @@ function renderEgg(creature) {
     <p class="big-text">${toAdult}</p>
     <p class="mini-text">Adult</p>
     </div>
-
-    `;
-    //idealTemp.innerText = `${eggTempMinFar}° - ${eggTempMaxFar}° fahrenheit (${eggMinTemp}° - ${eggMaxTemp}° celsius)`;
+    `
   }
 
 
@@ -551,7 +569,11 @@ function percentage(percent, total) {
 }
 
 
-
+function setBlockHeights() {
+  var eggTableDiv = document.getElementById("eggTable");
+  var eggTableHeight = eggTableDiv.offsetHeight;
+  eggTableDiv.style.minHeight = `${eggTableHeight}px`;
+}
 
 
 
