@@ -162,10 +162,10 @@ label {
 	margin-right: auto;
 }
 .full {
-	width: 100%;
+	width: 100% !important;
 }
 .third {
-	width: 32%;
+	width: 32% !important;
 }
 .middle {
 	margin: auto;
@@ -563,6 +563,9 @@ select {
 	display: block;
 	margin-bottom: 5px;
 }
+.center-text {
+	text-align: center;
+}
 .creature-name {
 	margin-bottom: 0;
 	font-weight: 600;
@@ -590,7 +593,7 @@ ul {
 #ko::-webkit-scrollbar:window-inactive {
 	width: 0px;
 }
-.ko-block, .carry-block {
+.ko-block, .carry-block, .egg-box {
 	width: 25%;
 	padding: 10px;
 	padding-top: 15px;
@@ -598,6 +601,11 @@ ul {
 	text-align: center;
 	overflow: hidden;
 	position: relative;
+}
+.egg-box {
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+
 }
 .ko-block:nth-of-type(even), .carry-block:nth-of-type(even) {
 	background: rgba(8, 108, 131, 0.85);
@@ -657,7 +665,7 @@ ul {
 }
 .mini-creature-img {
 	display: block;
-	width: 75px;
+	height: 50px;
 	margin: auto;
 }
 .wiggle {
@@ -792,6 +800,8 @@ option {
 	z-index: 15;
 	margin-bottom: 5px;
 	display: flex;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .nav-icon {
 	width: 20px;
@@ -817,4 +827,17 @@ option {
 	display: inline-block;
     vertical-align: middle;
 	font-size: 17px;
+}
+.half {
+	width: 50% !important;
+}
+.big-text {
+	font-size: 22px;
+	font-weight: 600;
+	margin: 0;
+	margin-bottom: 5px;
+}
+.mini-text {
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.5)
 }

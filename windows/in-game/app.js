@@ -158,10 +158,13 @@ var narcotics = {
   if(carryableBy) {
     i = 0;
 		while (i < carryableBy.length) {
+      if(carryableBy[i]=="crystalwyvern"){carryableBy[i]="Crystal Wyvern"}
 			let $p = document.createElement('div');
 			$p.className = 'carry-block';
 			$p.innerHTML = `
-      <img class="mini-creature-img" src="../../img/creatures/${carryableBy[i]}.webp">
+      <img class="mini-creature-img" src="../../img/creatures/${carryableBy[i].toLowerCase().replace(" ","")}.webp">
+      <p class="item-name">${carryableBy[i].charAt(0).toUpperCase() + carryableBy[i].slice(1)}</p>
+
     `;
     carryData.appendChild($p);
 			i++
@@ -242,7 +245,7 @@ function convertTime(seconds) {
   var hours = parseInt(sec / 3600) % 24;
   var minutes = parseInt((sec % 3600) / 60);
   var seconds = parseInt(sec % 60);
-  //console.log(days, hours, minutes, seconds)
+  console.log(days, hours, minutes, seconds)
   if(days==0&&hours>0){return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`}
   if(hours==0&&minutes>0){return `${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`}
   if(minutes==0&&seconds>0){return `${String(seconds).padStart(2, '0')}s`}
@@ -474,16 +477,58 @@ function renderEgg(creature) {
 
   if(data.breeding.incubationTime == 0) {
     eggTable.innerHTML = `
-    <p>No egg</p>
+    <div class="egg-box half">
+    <p class="big-text">${totalTime}</p>
+    <p class="mini-text">Total Time</p>
+    </div>
+    <div class="egg-box half">
+    <p class="big-text">${gestationTimeFinal}</p>
+    <p class="mini-text">Gestation Time</p>
+    </div>
+    <div class="egg-box third">
+    <p class="big-text">${babyTime}</p>
+    <p class="mini-text">Baby</p>
+    </div>
+    <div class="egg-box third">
+    <p class="big-text">${juvTime}</p>
+    <p class="mini-text">Juvenile</p>
+    </div>
+    <div class="egg-box third">
+    <p class="big-text">${toAdult}</p>
+    <p class="mini-text">Adult</p>
+    </div>
     `
     return;
   }
   if(data.breeding.gestationTime == 0) {
     eggTable.innerHTML = `
-    <img class="dododex-logo wiggle" src="https://www.dododex.com/media/item/${creature.charAt(0).toUpperCase() + creature.toLowerCase().slice(1)}_Egg.png">
-    <span id="idealTemp"></span>
+    <div class="egg-box half">
+    <p class="big-text">${totalTime}</p>
+    <p class="mini-text">Total Time</p>
+    </div>
+    <div class="egg-box half">
+    <p class="big-text">${eggTempMinFar}° - ${eggTempMaxFar}°F (${eggMinTemp}° - ${eggMaxTemp}°C)</p>
+    <p class="mini-text">Ideal Temp</p>
+    </div>
+    <div class="egg-box full center-text">
+    <p class="big-text">${incubationTimeFinal}</p>
+    <p class="mini-text">Incubation</p>
+    </div>
+    <div class="egg-box third">
+    <p class="big-text">${babyTime}</p>
+    <p class="mini-text">Baby</p>
+    </div>
+    <div class="egg-box third">
+    <p class="big-text">${juvTime}</p>
+    <p class="mini-text">Juvenile</p>
+    </div>
+    <div class="egg-box third">
+    <p class="big-text">${toAdult}</p>
+    <p class="mini-text">Adult</p>
+    </div>
+
     `;
-    idealTemp.innerText = `${eggTempMinFar}° - ${eggTempMaxFar}° fahrenheit (${eggMinTemp}° - ${eggMaxTemp}° celsius)`;
+    //idealTemp.innerText = `${eggTempMinFar}° - ${eggTempMaxFar}° fahrenheit (${eggMinTemp}° - ${eggMaxTemp}° celsius)`;
   }
 
 
