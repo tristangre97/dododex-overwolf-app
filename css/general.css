@@ -110,7 +110,7 @@ h2 {
 	position: relative;
 	min-height: 650px;
 }
-input, select {
+input, select, textarea {
 	border-radius: 3px;
 	padding: 10px;
 	display: block;
@@ -122,6 +122,11 @@ input, select {
 	border: 2px solid rgba(165, 222, 216, 0.45);
 	background: rgba(8, 99, 120, 0.95);
 	color: #B9EEF6;
+}
+textarea {
+	height: 250px;
+	resize: none;
+	width: 100%;
 }
 ::placeholder {
 	/* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -138,7 +143,7 @@ input, select {
 	background: rgba(8, 99, 120, 0.95);
 	color: #B9EEF6;
 }
-.search input:focus, input:focus {
+.search input:focus, input:focus, textarea:focus {
 	color: #75deed;
 	background: rgba(5, 136, 166, 1);
 	border-color: rgba(127, 231, 255, 0.85);

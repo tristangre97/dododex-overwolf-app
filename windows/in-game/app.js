@@ -577,6 +577,50 @@ function setBlockHeights() {
 
 
 
+function renderFeedbackPage() {
+  //appName.innerText = 'Feedback';
+  //appSubTitle.innerText = 'Share your feedback, ideas, suggestions or whatever else!';
+  app.innerHTML = ``;
+  app.innerHTML = `
+  <div class="basic-card">
+  <div class="input-box full">
+  <input placeholder="Your email (Optional)" id="userEmail">
+  </div>
+  <div class="input-box full">
+  <textarea placeholder="Let us know what you think..." id="feedback"></textarea>
+  </div>
+  <div class="button" value="Submit" onclick="submitForm()">Submit</div>
+
+  </div>
+  `;
+}
+
+function submitForm() {
+  var email = document.getElementById("userEmail").value;
+  var textArea = document.getElementById("feedback").value;
+
+  fetch('https://arkbuddy.app/ow/feedback', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email: email,
+      app: "Dododex",
+      userFeedback: textArea
+    })
+  })
+  .catch(function() {
+    console.log("Fail")
+  })
+  app.innerHTML = `
+  <div class="basic-card">
+  <span class="large-text">Thanks for the feedback!</span>
+  </div>
+  `;
+  return false;
+}
+
 
 
 
